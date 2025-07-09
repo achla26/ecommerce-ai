@@ -9,7 +9,11 @@
 import { Router } from 'express';
 
 import authRoutes from '@/routes/v1/shared/auth.routes';
+import oauthRoutes from '@/routes/v1/shared/oauth.routes';
 
+import roleRoutes from '@/routes/v1/admin/roles.routes';
+import permissionRoutes from '@/routes/v1/admin/permissions.routes';
+import userAccessRoutes from '@/routes/v1/admin/user-access.routes';
 
 const router = Router();
 
@@ -27,6 +31,12 @@ router.get('/', (req, res) => {
 });
 
 router.use('/auth', authRoutes);
+router.use('/oauth', oauthRoutes);
 
+
+// Register admin routes
+router.use('/admin/roles', roleRoutes);
+router.use('/admin/permissions', permissionRoutes);
+router.use('/admin/user-access', userAccessRoutes);
 
 export default router;
