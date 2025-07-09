@@ -1,0 +1,207 @@
+generator client {
+    provider = "prisma-client-js"
+    //   output   = "../../node_modules/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DB_URI")
+}
+
+model User {
+    id                    String                 @id @default(cuid()) @map("id")
+    email                 String                 @unique @map("email")
+    mobile                String?                @unique @map("mobile")
+    username              String                 @unique @map("username")
+    firstName             String                 @map("first_name")
+    lastName              String                 @map("last_name")
+    gender                String?                @map("gender")
+    // role                  UserRole               @default(USER) @map("role")
+    profilePicture        String                 @default("default.jpg") @map("profile_picture")
+    password              String                 @map("password")
+    lastLogin             DateTime?              @map("last_login")
+    emailVerified         DateTime?              @map("email_verified")
+    mobileVerified        DateTime?              @map("mobile_verified")
+    socialLinks           Json?                  @map("social_links")
+    isTwoFactorEnabled    Boolean                @default(false) @map("is_two_factor_enabled")
+    createdAt             DateTime               @default(now()) @map("created_at")
+    updatedAt             DateTime               @updatedAt @map("updated_at")
+    accounts              Account[]
+    otpAttempts           OtpAttempts?
+    tokens                Token[]
+    twoFactorConfirmation TwoFactorConfirmation?
+    roles                 Role[]
+    permissions           Permission[]
+    UserPermission        UserPermission[]
+    UserRole              UserRole[]
+    Session               Session[]
+
+    @@map("users")
+}
+
+model Token {
+    id        Int       @id @default(autoincrement())
+    token     String
+    type      TokenType
+    expiresAt DateTime  @map("expires_at")
+    isRevoked Boolean   @default(false) @map("is_revoked")
+    userId    String    @map("user_id")
+    createdAt DateTime  @default(now()) @map("created_at")
+    updatedAt DateTime  @updatedAt @map("updated_at")
+    user      User      @relation(fields: [userId], references: [id])
+
+    @@unique([userId, type], name: "userId_type_unique")
+    @@map("tokens")
+}
+
+model Account {
+    id                String  @id @default(cuid())
+    userId            String  @map("user_id")
+    type              String
+    provider          String
+    providerAccountId String  @map("provider_account_id")
+    refreshToken      String? @map("refresh_token")
+    accessToken       String? @map("access_token")
+    expiresAt         Int?    @map("expires_at")
+    tokenType         String? @map("token_type")
+    scope             String?
+    idToken           String? @map("id_token")
+    sessionState      String? @map("session_state")
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+    @@map("accounts")
+}
+
+model OtpAttempts {
+    id          Int       @id @default(autoincrement())
+    count       Int       @default(0)
+    lastAttempt DateTime? @map("last_attempt")
+    userId      String    @unique @map("user_id")
+    user        User      @relation(fields: [userId], references: [id])
+
+    @@map("otp_attempts")
+}
+
+model VerificationToken {
+    id      String   @id @default(cuid())
+    email   String
+    token   String   @unique
+    expires DateTime
+
+    @@unique([email, token])
+    @@map("verification_tokens")
+}
+
+model PasswordResetToken {
+    id      String   @id @default(cuid())
+    email   String
+    token   String   @unique
+    expires DateTime
+
+    @@unique([email, token])
+    @@map("password_reset_tokens")
+}
+
+model TwoFactorToken {
+    id      String   @id @default(cuid())
+    email   String
+    token   String   @unique
+    expires DateTime
+
+    @@unique([email, token])
+    @@map("two_factor_tokens")
+}
+
+model TwoFactorConfirmation {
+    id     String @id @default(cuid())
+    userId String @unique @map("user_id")
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("two_factor_confirmations")
+}
+
+// ROLE PERMISSION
+model Role {
+    id             String           @id @default(cuid())
+    name           String           @unique
+    guard_name     String           @default("api")
+    permissions    Permission[]
+    users          User[]
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    RolePermission RolePermission[]
+    UserRole       UserRole[]
+
+    @@map("roles")
+}
+
+model Permission {
+    id             String           @id @default(cuid())
+    name           String           @unique
+    guard_name     String           @default("api")
+    roles          Role[]
+    users          User[]
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    RolePermission RolePermission[]
+    UserPermission UserPermission[]
+
+    @@map("permissions")
+}
+
+model RolePermission {
+    roleId       String
+    permissionId String
+    role         Role       @relation(fields: [roleId], references: [id])
+    permission   Permission @relation(fields: [permissionId], references: [id])
+    createdAt    DateTime   @default(now())
+
+    @@id([roleId, permissionId])
+    @@map("role_permission")
+}
+
+model UserPermission {
+    userId       String
+    permissionId String
+    user         User       @relation(fields: [userId], references: [id])
+    permission   Permission @relation(fields: [permissionId], references: [id])
+    createdAt    DateTime   @default(now())
+
+    @@id([userId, permissionId])
+    @@map("user_permission")
+}
+
+model Session {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    expiresAt DateTime
+
+    @@map("session")
+}
+
+model UserRole {
+    userId    String
+    roleId    String
+    user      User     @relation(fields: [userId], references: [id])
+    role      Role     @relation(fields: [roleId], references: [id])
+    createdAt DateTime @default(now())
+
+    @@id([userId, roleId])
+    @@map("user_role")
+}
+
+// enum UserRole {
+//     ADMIN
+//     USER
+// }
+
+enum TokenType {
+    VERIFY
+    RESET
+    REFRESH
+    ACCESS
+    TEMP_ACCESS
+}

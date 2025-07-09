@@ -36,5 +36,9 @@ yarn-error.log*
 next-env.d.ts
 
 0data/
-/prisma/migrations/
-server
+apps/server/src/prisma/migrations/
+apps/server/src/prisma/seed/
+
+
+apps/server/src/modules/rbac/
+apps/server/src/routes/v1/admin/

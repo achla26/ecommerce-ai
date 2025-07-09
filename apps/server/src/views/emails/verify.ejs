@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Email Verification</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Verify Your Email Address</h2>
+      <p>Hello,</p>
+      <p>
+        Thank you for registering. Please verify your email address by clicking
+        the button below:
+      </p>
+
+      <a href="<%= verificationLink %>" class="button">Verify Email</a>
+
+      <p>Or copy and paste this link into your browser:</p>
+      <p><%= verificationLink %></p>
+
+      <p>If you didn't request this, please ignore this email.</p>
+      <p>Best regards,<br />Your App Team</p>
+    </div>
+  </body>
+</html>
