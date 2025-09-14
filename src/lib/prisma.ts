@@ -35,9 +35,9 @@ const prisma = new PrismaClient({
 });
 
 // Log Prisma events
-prisma.$on('warn', (e) => logger.warn(e.message));
-prisma.$on('error', (e) => logger.error(e.message));
-prisma.$on('info', (e) => logger.info(e.message));
+prisma.$on('warn', (e: any) => logger.warn(e.message));
+prisma.$on('error', (e: any) => logger.error(e.message));
+prisma.$on('info', (e: any) => logger.info(e.message));
 
 /**
  * Establishes connection to database with retry logic

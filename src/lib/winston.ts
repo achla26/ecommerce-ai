@@ -34,7 +34,9 @@ if (config.NODE_ENV !== 'production') {
                     return `${timestamp} [${level.toUpperCase()}]: ${message}${metaStr}`;
                 })
             )
-        })
+        }),
+        new winston.transports.File({ filename: "logs/error.log", level: "error" }),
+        new winston.transports.File({ filename: "logs/combined.log" })
     )
 }
 
@@ -44,4 +46,6 @@ export const logger = winston.createLogger({
     format: combine(timestamp(), errors({ stack: true }), json()),
     transports,
     silent: config.NODE_ENV === 'test', // Disable logging in test environment
+    exceptionHandlers: [new winston.transports.File({ filename: "logs/exceptions.log" })]
+
 });

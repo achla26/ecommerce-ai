@@ -5,7 +5,7 @@ import type ms from 'ms';
 dotenv.config();
 
 const config = {
-    PORT: process.env.PORT || 3000,
+    PORT: Number(process.env.PORT || 3000),
     NODE_ENV: process.env.NODE_ENV || 'development',
     BASE_URL: process.env.BASE_URL,
     APP_NAME: process.env.APP_NAME,
