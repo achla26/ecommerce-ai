@@ -1,36 +1,38 @@
 import jwt from 'jsonwebtoken';
 
-import config from '@/config';
+import { config } from '@/config';
 
 import { ApiError } from '@/lib/api-error';
 
 import { TokenType, TokenConfig } from '@/types/token';
 import { JwtPayload } from 'jsonwebtoken';
 
+const jwtConfig = config.get('jwt');
+
 const tokenConfigs: Record<TokenType, TokenConfig> = {
     [TokenType.ACCESS]: {
-        secret: config.JWT_ACCESS_TOKEN_SECRET!,
-        expiry: config.JWT_ACCESS_TOKEN_EXPIRY!,
+        secret: jwtConfig.access.secret!,
+        expiry: jwtConfig.access.expiry!,
         subject: 'accessToken'
     },
     [TokenType.REFRESH]: {
-        secret: config.JWT_REFRESH_TOKEN_SECRET!,
-        expiry: config.JWT_REFRESH_TOKEN_EXPIRY!,
+        secret: jwtConfig.refresh.secret!,
+        expiry: jwtConfig.refresh.expiry!,
         subject: 'refreshToken'
     },
     [TokenType.VERIFY]: {
-        secret: config.JWT_VERIFICATION_TOKEN_SECRET!,
-        expiry: config.JWT_VERIFICATION_TOKEN_EXPIRY!,
+        secret: jwtConfig.verification.secret!,
+        expiry: jwtConfig.verification.expiry!,
         subject: 'verifyToken'
     },
     [TokenType.RESET]: {
-        secret: config.JWT_RESET_TOKEN_SECRET!,
-        expiry: config.JWT_RESET_TOKEN_EXPIRY!,
+        secret: jwtConfig.reset.secret!,
+        expiry: jwtConfig.reset.expiry!,
         subject: 'resetToken'
     },
     [TokenType.TEMP_ACCESS]: {
-        secret: config.JWT_TEMP_ACCESS_TOKEN_SECRET!,
-        expiry: config.JWT_TEMP_ACCESS_TOKEN_EXPIRY!,
+        secret: jwtConfig.tempAccess.secret!,
+        expiry: jwtConfig.tempAccess.expiry!,
         subject: 'tempAccess'
     },
 };

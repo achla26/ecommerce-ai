@@ -9,11 +9,11 @@ export interface IToken {
 }
 
 export enum TokenType {
-    ACCESS = 'ACCESS',
-    REFRESH = 'REFRESH',
-    VERIFY = 'VERIFY',
-    RESET = 'RESET',
-    TEMP_ACCESS = 'TEMP_ACCESS'
+    ACCESS = 'access',
+    REFRESH = 'refresh',
+    VERIFY = 'verify',
+    RESET = 'reset',
+    TEMP_ACCESS = 'tempAccess'
 }
 
 export interface TokenConfig {

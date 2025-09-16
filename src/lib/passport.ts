@@ -3,7 +3,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import { db } from '@/lib/prisma';
 import { oauthService } from '@/modules/auth/services/oauth.service';
-import config from '@/config';
+import { config } from '@/config';
 
 passport.serializeUser((user: any, done) => done(null, user.id));
 
@@ -15,10 +15,13 @@ passport.deserializeUser(async (id: string, done) => {
     done(null, user);
 });
 
+const oauthConfig = config.get('oauth');
+
+
 // Google Strategy
 passport.use(new GoogleStrategy({
-    clientID: config.GOOGLE_CLIENT_ID!,
-    clientSecret: config.GOOGLE_CLIENT_SECRET!,
+    clientID: oauthConfig.google.clientId!,
+    clientSecret: oauthConfig.google.clientSecret!,
     callbackURL: '/auth/google/callback',
     scope: ['profile', 'email'],
     passReqToCallback: true
@@ -41,8 +44,8 @@ passport.use(new GoogleStrategy({
 
 // GitHub Strategy
 passport.use(new GitHubStrategy({
-    clientID: config.GITHUB_CLIENT_ID!,
-    clientSecret: config.GITHUB_CLIENT_SECRET!,
+    clientID: oauthConfig.github.clientId!,
+    clientSecret: oauthConfig.github.clientSecret!,
     callbackURL: '/auth/github/callback',
     scope: ['user:email'],
     passReqToCallback: true

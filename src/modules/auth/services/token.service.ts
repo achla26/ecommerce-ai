@@ -12,7 +12,7 @@ import {
     generateTempAccessToken
 } from '@/lib/jwt';
 import { db } from '@/lib/prisma';
-import config from '@/config';
+import { config } from '@/config';
 import { TokenType } from '@/types/token';
 import { JwtPayload } from 'jsonwebtoken';
 
@@ -23,25 +23,27 @@ type TokenHandler = {
     expiry: string;
 };
 
+const jwtConfig = config.get('jwt');
+
 class TokenService {
     private tokenHandlers: Record<string, TokenHandler> = {
         refresh: {
             type: TokenType.REFRESH,
             generateFn: generateRefreshToken,
             verifyFn: verifyRefreshToken,
-            expiry: config.JWT_REFRESH_TOKEN_EXPIRY!
+            expiry: jwtConfig.refresh.expiry!,
         },
         verify: {
             type: TokenType.VERIFY,
             generateFn: generateVerificationToken,
             verifyFn: verifyVerificationToken,
-            expiry: config.JWT_VERIFICATION_TOKEN_EXPIRY!
+            expiry: jwtConfig.verification.expiry!,
         },
         reset: {
             type: TokenType.RESET,
             generateFn: generateResetToken,
             verifyFn: verifyResetToken,
-            expiry: config.JWT_RESET_TOKEN_EXPIRY!
+            expiry: jwtConfig.reset.expiry!,
         }
     };
 

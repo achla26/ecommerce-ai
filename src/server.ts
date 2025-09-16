@@ -6,7 +6,7 @@
 /**
  * Custom Modules
  */
-import config from "@/config";
+import { config } from "@/config";
 
 import { connectToDatabase, disconnectFromDatabase } from '@/lib/prisma';
 import type { Server } from 'http';
@@ -23,6 +23,8 @@ server.
 */
 let server: Server | undefined;
 
+const appConfig = config.get('app');
+
 (async () => {
     try {
         await connectToDatabase();
@@ -34,8 +36,8 @@ let server: Server | undefined;
         // }
 
         // Start your server
-        server = app.listen(config.PORT, () => {
-            logger.info(`Server running on port ${config.PORT}`);
+        server = app.listen(appConfig.port, () => {
+            logger.info(`Server running on port ${appConfig.port}`);
         });
     } catch (error) {
         logger.error('Failed to start server:', error);

@@ -20,8 +20,6 @@ import {
     parseJwtExpiry
 } from '@/lib/jwt';
 import { db } from '@/lib/prisma';
-
-import config from '@/config';
 import { sanitizeUser } from "@/utils/user";
 
 /**
@@ -33,8 +31,10 @@ import { RegisterUserInput } from '@/types/auth';
  */
 import { mailService } from '@/services/mail';
 import { tokenService } from '@/modules/auth/services/token.service';
+import { UserRepository } from '@/repositories/user.repository';
 
 
+const userRepository = new UserRepository(db);
 
 const Register = async (userData: RegisterUserInput) => {
     try {
@@ -45,14 +45,10 @@ const Register = async (userData: RegisterUserInput) => {
         }
 
         // Check for existing user with same email or username
-        const existingUser = await db.user.findFirst({
-            where: {
-                OR: [
-                    { email: userData.email },
-                    { username: userData.username }
-                ]
-            }
-        });
+        const existingUser = await userRepository.findByEmailOrUsername(
+            userData.email,
+            userData.username
+        );
 
         if (existingUser) {
             throw ApiError.conflict(
@@ -65,38 +61,47 @@ const Register = async (userData: RegisterUserInput) => {
         // Hash password before storage
         const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-        // Execute all database operations in a transaction
         const result = await db.$transaction(async (tx) => {
-            // Create new user record
-            const user = await tx.user.create({
-                data: {
+            const user = await userRepository.createUser(
+                {
                     firstName: userData.firstName,
                     lastName: userData.lastName,
                     username: userData.username,
                     email: userData.email,
                     password: hashedPassword,
-                }
-            });
+                    confirmPassword: hashedPassword,
+                },
+                tx
+            );
 
             if (!user?.id) {
                 throw ApiError.internal("User creation failed");
             }
-
             // Generate verification token USING THE SAME TRANSACTION 
-            const verificationToken = await tokenService.generateAndStoreToken('verify', user.id, tx);
+
+            const verificationToken = await tokenService.generateAndStoreToken(
+                "verify",
+                user.id,
+                tx
+            );
 
             const tempAccessToken = await generateToken(TokenType.TEMP_ACCESS, user.id);
+
             //TODO Send verification email (uncomment when ready)
-            const verificationLink = await mailService.sendVerificationEmail(user.email, verificationToken);
+
+            const verificationLink = await mailService.sendVerificationEmail(
+                user.email,
+                verificationToken
+            );
 
             return {
                 user: sanitizeUser(user),
                 tokens: {
                     accessToken: tempAccessToken,
-                    refreshToken: null
+                    refreshToken: null,
                 },
                 requiresVerification: true,
-                verificationLink
+                verificationLink,
             };
         });
 

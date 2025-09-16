@@ -4,56 +4,82 @@ import type ms from 'ms';
 
 dotenv.config();
 
-const config = {
-    PORT: Number(process.env.PORT || 3000),
-    NODE_ENV: process.env.NODE_ENV || 'development',
-    BASE_URL: process.env.BASE_URL,
-    APP_NAME: process.env.APP_NAME,
-    API_URL: `${process.env.BASE_URL}/api/v1/`,
+const _config: any = {
+    app: {
+        port: Number(process.env.PORT || 3000),
+        env: process.env.NODE_ENV || 'development',
+        baseUrl: process.env.BASE_URL,
+        name: process.env.APP_NAME,
+        apiUrl: `${process.env.BASE_URL}/api/v1/`,
+        supportEmail: process.env.SUPPORT_EMAIL,
+        whitelistOrigins: ['http://localhost'],
+        logLevel: process.env.LOG_LEVEL || 'info'
+    },
 
-    SUPPORT_EMAIL: process.env.SUPPORT_EMAIL,
+    db: {
+        uri: process.env.DB_URI,
+        name: 'chat-app'
+    },
 
-    WHITELIST_ORIGINS: ['http://localhost'],
+    jwt: {
+        access: {
+            secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+            expiry: process.env.JWT_ACCESS_TOKEN_EXPIRY
+        },
+        tempAccess: {
+            secret: process.env.JWT_TEMP_ACCESS_TOKEN_SECRET,
+            expiry: process.env.JWT_TEMP_ACCESS_TOKEN_EXPIRY
+        },
+        refresh: {
+            secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+            expiry: process.env.JWT_REFRESH_TOKEN_EXPIRY
+        },
+        verification: {
+            secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
+            expiry: process.env.JWT_VERIFICATION_TOKEN_EXPIRY
+        },
+        reset: {
+            secret: process.env.JWT_RESET_TOKEN_SECRET,
+            expiry: process.env.JWT_RESET_TOKEN_EXPIRY
+        }
+    },
 
-    DB_URI: process.env.DB_URI,
-    DB_NAME: 'chat-app',
-    LOG_LEVEL: process.env.LOG_LEVEL || 'info',
+    email: {
+        smtp: {
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT) : 2525,
+            mail: process.env.SMTP_MAIL,
+            password: process.env.SMTP_PASSWORD
+        },
+        gmail: {
+            user: process.env.GMAIL_USER,
+            password: process.env.GMAIL_PASSWORD
+        },
+        resend: {
+            apiKey: process.env.RESEND_API_KEY
+        }
+    },
 
-    JWT_ACCESS_TOKEN_SECRET: process.env.JWT_ACCESS_TOKEN_SECRET,
-    JWT_ACCESS_TOKEN_EXPIRY: process.env.JWT_ACCESS_TOKEN_EXPIRY as ms.StringValue,
+    oauth: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        },
+        github: {
+            clientId: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET
+        },
+        apple: {
+            serviceId: process.env.APPLE_SERVICE_ID,
+            teamId: process.env.APPLE_TEAM_ID,
+            keyId: process.env.APPLE_KEY_ID,
+            keyFilePath: process.env.APPLE_KEY_FILE_PATH
+        }
+    }
+};
 
-    JWT_TEMP_ACCESS_TOKEN_SECRET: process.env.JWT_TEMP_ACCESS_TOKEN_SECRET,
-    JWT_TEMP_ACCESS_TOKEN_EXPIRY: process.env.JWT_TEMP_ACCESS_TOKEN_EXPIRY as ms.StringValue,
-
-    JWT_REFRESH_TOKEN_SECRET: process.env.JWT_REFRESH_TOKEN_SECRET,
-    JWT_REFRESH_TOKEN_EXPIRY: process.env.JWT_REFRESH_TOKEN_EXPIRY as ms.StringValue,
-
-    JWT_VERIFICATION_TOKEN_SECRET: process.env.JWT_VERIFICATION_TOKEN_SECRET,
-    JWT_VERIFICATION_TOKEN_EXPIRY: process.env.JWT_VERIFICATION_TOKEN_EXPIRY as ms.StringValue,
-
-    JWT_RESET_TOKEN_SECRET: process.env.JWT_RESET_TOKEN_SECRET,
-    JWT_RESET_TOKEN_EXPIRY: process.env.JWT_RESET_TOKEN_EXPIRY as ms.StringValue,
-
-    SMTP_HOST: process.env.SMTP_HOST,
-    SMTP_PORT: process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT) : 2525,
-    SMTP_MAIL: process.env.SMTP_MAIL,
-    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
-
-    GMAIL_USER: process.env.GMAIL_USER,
-    GMAIL_PASSWORD: process.env.GMAIL_PASSWORD,
-
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
-
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-
-    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-
-    APPLE_SERVICE_ID: process.env.APPLE_SERVICE_ID,
-    APPLE_TEAM_ID: process.env.APPLE_TEAM_ID,
-    APPLE_KEY_ID: process.env.APPLE_KEY_ID,
-    APPLE_KEY_FILE_PATH: process.env.APPLE_KEY_FILE_PATH
-}
-
-export default config;
+export const config = {
+    get(key: keyof typeof _config) {
+        return _config[key];
+    }
+};

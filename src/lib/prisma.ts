@@ -11,7 +11,7 @@ import { PrismaClient } from '@prisma/client'
 /**
  * Custom Modules
  */
-import config from '@/config';
+import { config } from '@/config';
 import { logger } from '@/lib/winston';
 
 // Connection state tracking
@@ -19,11 +19,13 @@ let isConnected = false;
 let connectionAttempts = 0;
 const MAX_RETRIES = 3;
 
+const dbConfig = config.get('db');
+
 // Create Prisma client instance
 const prisma = new PrismaClient({
     datasources: {
         db: {
-            url: config.DB_URI
+            url: dbConfig.uri
         }
     },
     log: [
@@ -43,7 +45,7 @@ prisma.$on('info', (e: any) => logger.info(e.message));
  * Establishes connection to database with retry logic
  */
 export const connectToDatabase = async (): Promise<void> => {
-    if (!config.DB_URI) {
+    if (!dbConfig.uri) {
         const error = new Error('Database URI is not defined in configuration');
         logger.error(error.message);
         throw error;
@@ -63,7 +65,7 @@ export const connectToDatabase = async (): Promise<void> => {
         connectionAttempts = 0;
 
         logger.info('Connected to database successfully', {
-            uri: config.DB_URI
+            uri: dbConfig.uri
         });
 
     } catch (error) {

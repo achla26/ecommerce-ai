@@ -15,7 +15,7 @@
  * Custom Modules
  */
 
-import config from "@/config";
+import { config } from "@/config";
 import { mailClient, sender } from "@/config/mail";
 import { ApiError } from "@/lib/api-error";
 import { renderTemplate } from "@/utils";
@@ -31,6 +31,9 @@ type EmailOptions = {
     html?: string;
 };
 
+const appConfig = config.get('app');
+
+
 class MailService {
     private async sendEmail({
         email,
@@ -43,8 +46,8 @@ class MailService {
             const finalHtml = template
                 ? await renderTemplate(template, {
                     ...context,
-                    appName: config.APP_NAME,
-                    supportEmail: config.SUPPORT_EMAIL
+                    appName: appConfig.name,
+                    supportEmail: appConfig.supportEmail
                 })
                 : html;
 
@@ -73,7 +76,7 @@ class MailService {
     }
 
     async sendVerificationEmail(email: string, token: string) {
-        const verificationLink = `${config.API_URL}/verify-email?token=${token}`;
+        const verificationLink = `${appConfig.apiUrl}/verify-email?token=${token}`;
         return verificationLink;  //TODO - UNCOMMENT
 
         return this.sendEmail({
@@ -93,7 +96,7 @@ class MailService {
     }
 
     async sendPasswordResetEmail(email: string, token: string) {
-        const resetLink = `${config.API_URL}/reset-password?token=${token}`;
+        const resetLink = `${appConfig.apiUrl}/reset-password?token=${token}`;
         return this.sendEmail({
             email,
             subject: 'Password Reset Request',

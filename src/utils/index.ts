@@ -13,13 +13,16 @@ import fs from 'fs/promises';
 /**
  * Custom Modules
  */
-import config from "@/config";
+import { config } from "@/config";
 import { ApiError } from '@/lib/api-error';
+
+const appConfig = config.get('app');
+
 
 export const cookieOptions = {
     httpOnly: true, // true if Secure from XSS
     sameSite: "strict" as const, // Prevent CSRF
-    secure: config.NODE_ENV === "production",
+    secure: appConfig.env === "production",
 };
 
 

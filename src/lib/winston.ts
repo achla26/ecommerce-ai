@@ -11,7 +11,7 @@ import winston from "winston";
 /**
  * Custom Modules
  */
-import config from "@/config";
+import { config } from "@/config";
 
 const { combine, timestamp, json, errors, align, printf, colorize } = winston.format;
 
@@ -20,8 +20,9 @@ const { combine, timestamp, json, errors, align, printf, colorize } = winston.fo
 const transports: winston.transport[] = [];
 
 // if the application is not running in production, add a console transport
+const appConfig = config.get('app');
 
-if (config.NODE_ENV !== 'production') {
+if (appConfig.env !== 'production') {
     transports.push(
         new winston.transports.Console({
             format: combine(
@@ -42,10 +43,10 @@ if (config.NODE_ENV !== 'production') {
 
 // Create a Logger instance using winston
 export const logger = winston.createLogger({
-    level: config.LOG_LEVEL || 'info',
+    level: appConfig.logLevel || 'info',
     format: combine(timestamp(), errors({ stack: true }), json()),
     transports,
-    silent: config.NODE_ENV === 'test', // Disable logging in test environment
+    silent: appConfig.env === 'test', // Disable logging in test environment
     exceptionHandlers: [new winston.transports.File({ filename: "logs/exceptions.log" })]
 
 });
