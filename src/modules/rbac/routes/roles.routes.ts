@@ -22,7 +22,7 @@ import authenticate from '@/middlewares/authenticated.middleware';
 /**
  * Schemas
  */
-import { manageRoleSchema, syncPermissionsSchema } from '@/schemas/rbac';
+import { manageRoleSchema, syncPermissionsSchema } from '@/modules/rbac/schemas/rbac';
 
 
 const router = Router();

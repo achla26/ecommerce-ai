@@ -4,7 +4,7 @@ import { config } from '@/config';
 
 import { ApiError } from '@/lib/api-error';
 
-import { TokenType, TokenConfig } from '@/types/token';
+import { TokenType, TokenConfig } from '@/shared/types/token';
 import { JwtPayload } from 'jsonwebtoken';
 
 const jwtConfig = config.get('jwt');

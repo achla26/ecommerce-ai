@@ -26,7 +26,7 @@ import {
     createPermissionSchema,
     updatePermissionSchema,
     syncPermissionRolesSchema
-} from '@/schemas/rbac';
+} from '@/modules/rbac/schemas/rbac';
 
 const router = Router();
 

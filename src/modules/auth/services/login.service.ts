@@ -2,8 +2,8 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { ApiError } from '@/lib/api-error';
 import { tokenService } from '@/modules/auth/services/token.service';
-import { LoginCredentials } from '@/types/auth';
-import { sanitizeUser } from '@/utils/user';
+import { LoginCredentials } from '@/modules/auth/types';
+import { sanitizeUser } from '@/shared/utils/user';
 import { sendEmailVerificationLink } from '@/modules/auth/services/email-verification.service'
 const prisma = new PrismaClient();
 

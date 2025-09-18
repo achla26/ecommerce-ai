@@ -13,7 +13,7 @@ import {
     syncPermissionsSchema,
     manageRoleSchema,
     addRoleToUserSchema
-} from '@/schemas/rbac';
+} from '@/modules/rbac/schemas/rbac';
 
 const router = express.Router();
 

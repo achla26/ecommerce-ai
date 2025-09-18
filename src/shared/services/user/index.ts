@@ -3,16 +3,16 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { ApiError } from '@/lib/api-error';
 import { tokenService } from '@/modules/auth/services/token.service';
-import { mailService } from '@/services/mail';
+import { mailService } from '@/shared/services/mail';
 import {
     RegisterUserInput,
     LoginCredentials,
     AuthResponse,
     UserResponse,
     IUser
-} from '@/types/auth';
-import { sanitizeUser } from '@/utils/user';
-import { PaginationOptions, PaginationResult } from '@/types/pagination';
+} from '@/modules/auth/types';
+import { sanitizeUser } from '@/shared/utils/user';
+import { PaginationOptions, PaginationResult } from '@/shared/types/pagination';
 
 const prisma = new PrismaClient();
 

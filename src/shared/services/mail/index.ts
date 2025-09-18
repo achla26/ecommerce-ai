@@ -18,7 +18,7 @@
 import { config } from "@/config";
 import { mailClient, sender } from "@/config/mail";
 import { ApiError } from "@/lib/api-error";
-import { renderTemplate } from "@/utils";
+import { renderTemplate } from "@/shared/utils";
 /**
  * Types
  */

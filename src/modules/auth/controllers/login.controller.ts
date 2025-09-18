@@ -17,11 +17,11 @@ import loginService from "@/modules/auth/services/login.service";
 /**
  * Types
  */
-import { LoginCredentials } from "@/types/auth";
+import { LoginCredentials } from "@/modules/auth/types";
 /**
  * utils
  */
-import { authCookieOptions } from '@/utils/cookie';
+import { authCookieOptions } from '@/shared/utils/cookie';
 
 
 const login = asyncHandler(async (req, res) => {

@@ -18,7 +18,7 @@ import '@/lib/passport';
  * Custom Modules
  */
 import limiter from "@/lib/express-rate-limit";
-import { corsOptions } from "@/utils/cors";
+import { corsOptions } from "@/shared/utils/cors";
 
 /**
  * Routes
@@ -32,7 +32,7 @@ import v1Routes from "@/routes/v1";
 
 import { errorHandler } from "@/middlewares/error-handler.middleware";
 import passport from "passport";
-import { sessionConfig } from "@/utils/session";
+import { sessionConfig } from "@/shared/utils/session";
 
 /*
  * Express app initial

@@ -7,4 +7,4 @@ export interface UserProfile {
     emailVerified: Date | null;
     createdAt: Date;
     lastLogin: Date | null;
-}
+} 

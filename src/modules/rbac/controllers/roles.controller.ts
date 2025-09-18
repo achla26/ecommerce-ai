@@ -13,7 +13,7 @@ import asyncHandler from '@/middlewares/async-handler.middleware';
  * Services
  */
 import { roleService } from '@/modules/rbac/services/role.service';
-import { permissionConfig, roleConfig } from '@/types/rbac';
+import { permissionConfig, roleConfig } from '@/modules/rbac/types';
 import { ApiError } from '@/lib/api-error';
 
 class RoleController {

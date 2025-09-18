@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient, User } from "@prisma/client";
-import { BaseRepository } from "./base.repository";
-import { RegisterUserInput } from "@/types/auth";
+import { BaseRepository } from "@/shared/repositories/base.repository";
+import { RegisterUserInput } from "@/modules/auth/types";
 
 export class UserRepository extends BaseRepository<User> {
     constructor(prisma: PrismaClient) {

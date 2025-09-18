@@ -1,7 +1,7 @@
 import { ApiError } from "@/lib/api-error";
 import { generateTempAccessToken } from "@/lib/jwt";
-import { userService } from "@/services/user";
-import { mailService } from "@/services/mail";
+import { userService } from "@/shared/services/user";
+import { mailService } from "@/shared/services/mail";
 import { db } from "@/lib/prisma";
 import { tokenService } from "@/modules/auth/services/token.service";
 

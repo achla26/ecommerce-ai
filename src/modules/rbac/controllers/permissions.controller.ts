@@ -17,7 +17,7 @@ import { permissionService } from '@/modules/rbac/services/permission.service';
 import type {
     managePermissionInput,
     SyncPermissionRolesInput
-} from '@/types/rbac';
+} from '@/modules/rbac/types';
 import { ApiError } from '@/lib/api-error';
 import { roleService } from '../services/role.service';
 

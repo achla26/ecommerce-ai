@@ -8,12 +8,12 @@
  */
 import { Router } from 'express';
 
-import authRoutes from '@/routes/v1/shared/auth.routes';
-import oauthRoutes from '@/routes/v1/shared/oauth.routes';
+import authRoutes from '@/modules/auth/routes/auth.routes';
+import oauthRoutes from '@/modules/auth/routes/oauth.routes';
 
-import roleRoutes from '@/routes/v1/admin/roles.routes';
-import permissionRoutes from '@/routes/v1/admin/permissions.routes';
-import userAccessRoutes from '@/routes/v1/admin/user-access.routes';
+import roleRoutes from '@/modules/rbac/routes/roles.routes';
+import permissionRoutes from '@/modules/rbac/routes/permissions.routes';
+import userAccessRoutes from '@/modules/rbac/routes/user-access.routes';
 
 const router = Router();
 
@@ -21,13 +21,13 @@ const router = Router();
  * Root Route
  */
 router.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'API is live',
-    status: 'ok',
-    version: '1.0.0',
-    docs: 'https://docs.blog-api.com',
-    timeStamp: new Date().toISOString(),
-  });
+    res.status(200).json({
+        message: 'API is live',
+        status: 'ok',
+        version: '1.0.0',
+        docs: 'https://docs.blog-api.com',
+        timeStamp: new Date().toISOString(),
+    });
 });
 
 router.use('/auth', authRoutes);

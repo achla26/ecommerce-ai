@@ -13,7 +13,7 @@ import {
 } from '@/lib/jwt';
 import { db } from '@/lib/prisma';
 import { config } from '@/config';
-import { TokenType } from '@/types/token';
+import { TokenType } from '@/shared/types/token';
 import { JwtPayload } from 'jsonwebtoken';
 
 type TokenHandler = {

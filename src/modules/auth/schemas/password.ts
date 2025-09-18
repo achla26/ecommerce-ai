@@ -1,4 +1,4 @@
-import { basePasswordSchema, emailSchema, passwordMatchSchema } from "@/validators/auth";
+import { basePasswordSchema, emailSchema, passwordMatchSchema } from "@/shared/validators/auth";
 import { z } from "zod";
 
 

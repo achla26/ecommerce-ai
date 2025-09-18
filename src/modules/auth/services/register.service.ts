@@ -6,7 +6,7 @@
 /**
  * Node Modules
  */
-import { TokenType } from '@/types/token';
+import { TokenType } from '@/shared/types/token';
 import bcrypt from 'bcrypt';
 /**
  * Custom Modules
@@ -20,18 +20,18 @@ import {
     parseJwtExpiry
 } from '@/lib/jwt';
 import { db } from '@/lib/prisma';
-import { sanitizeUser } from "@/utils/user";
+import { sanitizeUser } from "@/shared/utils/user";
 
 /**
  * Types
  */
-import { RegisterUserInput } from '@/types/auth';
+import { RegisterUserInput } from '@/modules/auth/types';
 /**
  * Services
  */
-import { mailService } from '@/services/mail';
+import { mailService } from '@/shared/services/mail';
 import { tokenService } from '@/modules/auth/services/token.service';
-import { UserRepository } from '@/repositories/user.repository';
+import { UserRepository } from '@/modules/user/repositories/user.repository';
 
 
 const userRepository = new UserRepository(db);

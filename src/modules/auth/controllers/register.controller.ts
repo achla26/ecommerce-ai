@@ -17,8 +17,8 @@ import registerService from "@/modules/auth/services/register.service";
 /**
  * Types
  */
-import { RegisterUserInput } from "@/types/auth";
-import { authCookieOptions } from "@/utils/cookie";
+import { RegisterUserInput } from "@/modules/auth/types";
+import { authCookieOptions } from "@/shared/utils/cookie";
 
 const register = asyncHandler(async (req, res) => {
     // req.validatedData is now guaranteed to be valid

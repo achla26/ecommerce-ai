@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { firstNameSchema, lastNameSchema, usernameSchema, emailSchema, passwordMatchSchema, genderSchema } from "@/validators/auth";
+import { firstNameSchema, lastNameSchema, usernameSchema, emailSchema, passwordMatchSchema, genderSchema } from "@/shared/validators/auth";
 
 const RegisterSchema = z.object({
     firstName: firstNameSchema,

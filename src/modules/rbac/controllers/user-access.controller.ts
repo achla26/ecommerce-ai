@@ -8,7 +8,7 @@ import asyncHandler from '@/middlewares/async-handler.middleware';
 import { userAccessService } from '@/modules/rbac/services/user-access.service';
 import { ApiError } from '@/lib/api-error';
 
-import { syncRolesSchema, syncPermissionRolesSchema, syncPermissionsSchema, manageRoleSchema } from '@/schemas/rbac';
+import { syncRolesSchema, syncPermissionRolesSchema, syncPermissionsSchema, manageRoleSchema } from '@/modules/rbac/schemas/rbac';
 
 class UserAccessController {
     // Check if a user has a specific role

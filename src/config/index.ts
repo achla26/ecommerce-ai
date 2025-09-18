@@ -80,6 +80,11 @@ const _config: any = {
 
 export const config = {
     get(key: keyof typeof _config) {
-        return _config[key];
+        const value = _config[key];
+        if (!value) {
+            console.log(`The ${String(key)} variable not found.`);
+            process.exit();
+        }
+        return value;
     }
 };

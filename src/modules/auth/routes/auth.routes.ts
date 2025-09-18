@@ -25,9 +25,9 @@ import { checkTokenType } from '@/middlewares/check-token-type.middleware';
 /**
  * Schemas
  */
-import { LoginSchema, RegisterSchema } from '@/schemas/auth';
+import { LoginSchema, RegisterSchema } from '@/modules/auth/schemas';
 
-import { resndVerifyEmailTokenSchema } from '@/schemas/auth/token';
+import { resndVerifyEmailTokenSchema } from '@/modules/auth/schemas/token';
 
 
 const router = Router();

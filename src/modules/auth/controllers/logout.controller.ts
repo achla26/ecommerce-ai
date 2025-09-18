@@ -10,7 +10,7 @@
 import { ApiResponse } from "@/lib/api-response";
 import asyncHandler from "@/middlewares/async-handler.middleware";
 import { tokenService } from "@/modules/auth/services/token.service";
-import { authCookieOptions } from "@/utils/cookie";
+import { authCookieOptions } from "@/shared/utils/cookie";
 
 export const logout = asyncHandler(async (req, res) => {
 
